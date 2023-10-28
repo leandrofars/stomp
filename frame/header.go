@@ -29,6 +29,13 @@ const (
 	Subscription  = "subscription"
 	MessageId     = "message-id"
 	Message       = "message"
+	/* TR-369 section 4.4.2.1 [Subscribing a USP Endpoint to a STOMP Destination] */
+	/*
+		R-STOMP.14: USP Agents that receive a subscribe-dest STOMP Header in the CONNECTED
+		frame MUST use that STOMP destination in the destination STOMP header when sending a
+		SUBSCRIBE frame.
+	*/
+	SubscribeDest = "subscribe-dest"
 )
 
 // A Header represents the header part of a STOMP frame.
@@ -49,7 +56,6 @@ const (
 //	accept-version:1.0,1.1,1.2
 //	comment:some comment
 //	comment:another comment
-//
 type Header struct {
 	slice []string
 }

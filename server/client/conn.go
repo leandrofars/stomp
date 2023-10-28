@@ -519,10 +519,20 @@ func (c *Conn) handleConnect(f *frame.Frame) error {
 	// go-routine
 	c.writeTimeout = time.Duration(cy) * time.Millisecond
 
+	/* TR-369 section 4.4.1.1 [Connecting a USP Endpoint to the STOMP Server] */
+	/*
+		R-STOMP.4: USP Endpoints sending a STOMP frame MUST include (in addition to other
+		mandatory STOMP headers) an endpoint-id STOMP header containing the
+		Endpoint ID of the USP Endpoint sending the frame.
+	*/
+	endpointId := f.Header.Get("endpoint-id")
+
 	response := frame.New(frame.CONNECTED,
 		frame.Version, string(c.version),
 		frame.Server, "stompd/x.y.z", // TODO: get version
-		frame.HeartBeat, fmt.Sprintf("%d,%d", cy, cx))
+		frame.HeartBeat, fmt.Sprintf("%d,%d", cy, cx),
+		frame.SubscribeDest, "oktopus/v1/agent/"+endpointId,
+	)
 
 	c.sendImmediately(response)
 	c.stateFunc = connected
