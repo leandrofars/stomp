@@ -1,3 +1,5 @@
+This STOMP implementation was forked from <a href="https://github.com/go-stomp/stomp">https://github.com/go-stomp/stomp</a> and we customized it to accomplish with TR-369 protocol
+
 # stomp
 
 Go language implementation of a STOMP client library.
